@@ -8,20 +8,23 @@ categoryRouter.get('/', async (req, res) => {
     try {
         const {
             paginate = true,
-            page = 1,
-            limit = 10,
-            orderBy = 'id',
+            page = "1",
+            limit = "10",
+            orderBy = 'createdAt',
             order = 'asc',
         } = req.query as {
             paginate?: boolean;
-            page?: number;
-            limit?: number;
+            page?: string;
+            limit?: string;
             orderBy?: string;
             order?: 'asc' | 'desc';
         };
 
-        if (paginate && (page < 1 || limit < 1)) {
-            res.status(400).json({ error: "Page and limit must be greater than 0" });
+        const pageInt = parseInt(page);
+        const limitInt = parseInt(limit);
+
+        if (isNaN(pageInt) || isNaN(limitInt) || 0 >= pageInt || 0 >= limitInt) {
+            res.status(400).json({ error: "Invalid page or limit." });
             return;
         }
 
@@ -31,8 +34,8 @@ categoryRouter.get('/', async (req, res) => {
         }
 
         const categoryList = await prisma.category.findMany({
-            skip: paginate ? (page - 1) * limit : undefined,
-            take: paginate ? limit : undefined,
+            skip: paginate ? (pageInt - 1) * limitInt : undefined,
+            take: paginate ? limitInt : undefined,
             orderBy: {
                 [orderBy]: order
             }

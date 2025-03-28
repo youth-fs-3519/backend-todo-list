@@ -8,21 +8,34 @@ toDoRouter.get('/', async (req, res) => {
     try {
         const {
             paginate = true,
-            page = 1,
-            limit = 10,
-            orderBy = 'id',
+            page = "1",
+            limit = "10",
+            orderBy = 'createdAt',
             order = 'asc',
         } = req.query as {
             paginate?: boolean;
-            page?: number;
-            limit?: number;
+            page?: string;
+            limit?: string;
             orderBy?: string;
             order?: 'asc' | 'desc';
         };
 
+        const pageInt = parseInt(page);
+        const limitInt = parseInt(limit);
+
+        if (isNaN(pageInt) || isNaN(limitInt) || 0 >= pageInt || 0 >= limitInt) {
+            res.status(400).json({ error: "Invalid page or limit." });
+            return;
+        }
+
+        if (order !== 'asc' && order !== 'desc') {
+            res.status(400).json({ error: "Order must be 'asc' or 'desc'" });
+            return;
+        }
+
         const toDoList = await prisma.toDo.findMany({
-            skip: paginate ? (page - 1) * limit : undefined,
-            take: paginate ? limit : undefined,
+            skip: paginate ? (pageInt - 1) * limitInt : undefined,
+            take: paginate ? limitInt : undefined,
             orderBy: {
                 [orderBy]: order
             }
@@ -30,6 +43,8 @@ toDoRouter.get('/', async (req, res) => {
 
         res.json(toDoList);
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({ error: "An error occurred while fetching the to-do list." });
     }
 });
