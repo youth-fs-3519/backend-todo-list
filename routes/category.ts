@@ -48,6 +48,26 @@ categoryRouter.get('/', async (req, res) => {
     }
 });
 
+categoryRouter.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const category = await prisma.category.findUnique({
+            where: { id },
+        });
+
+        if (!category) {
+            res.status(404).json({ error: "Category not found" });
+            return;
+        }
+
+        res.json(category);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "An error occurred while fetching the category" });
+    }
+});
+
 categoryRouter.post('/', async (req, res) => {
     try {
         const { name } = req.body as { name: string };
