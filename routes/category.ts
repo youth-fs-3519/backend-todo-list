@@ -43,6 +43,7 @@ categoryRouter.get('/', async (req, res) => {
 
         res.json(categoryList);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "An error occurred while fetching the categories" });
     }
 });
@@ -62,6 +63,7 @@ categoryRouter.post('/', async (req, res) => {
 
         res.json(newcategory);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "An error occurred while creating the category" });
     }
 });
@@ -92,6 +94,7 @@ categoryRouter.put('/:id', async (req, res) => {
 
         res.json(updatedcategory);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "An error occurred while updating the category" });
     }
 });
@@ -117,6 +120,7 @@ categoryRouter.delete('/:id', async (req, res) => {
 
         res.json(deletedcategory);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "An error occurred while deleting the category" });
     }
 });

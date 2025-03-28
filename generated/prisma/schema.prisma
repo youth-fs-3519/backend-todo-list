@@ -19,7 +19,9 @@ model Category {
   id   String @id @default(uuid())
   name String
 
-  ToDo ToDo[]
+  ToDo      ToDo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model ToDo {
@@ -29,6 +31,6 @@ model ToDo {
   finished    Boolean   @default(false)
   category    Category? @relation(fields: [categoryId], references: [id])
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime  @default(now()) @updatedAt
   categoryId  String?
 }
