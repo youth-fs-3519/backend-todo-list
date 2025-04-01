@@ -21,7 +21,7 @@ model Category {
 
   ToDo      ToDo[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model ToDo {
@@ -31,6 +31,23 @@ model ToDo {
   finished    Boolean   @default(false)
   category    Category? @relation(fields: [categoryId], references: [id])
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
   categoryId  String?
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

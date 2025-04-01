@@ -134,6 +134,23 @@ exports.Prisma.ToDoScalarFieldEnum = {
   categoryId: 'categoryId'
 };
 
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  body: 'body',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -152,7 +169,9 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Category: 'Category',
-  ToDo: 'ToDo'
+  ToDo: 'ToDo',
+  Post: 'Post',
+  Comment: 'Comment'
 };
 
 /**
