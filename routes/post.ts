@@ -6,7 +6,31 @@ const prisma = new PrismaClient();
 
 postRouter.get('/', async (req, res) => {
     try {
-        const postList = await prisma.post.findMany();
+        const postList = await prisma.post.findMany({
+            include: {
+                _count: {
+                    select: { Comment: true}
+                }
+            }
+        });
+
+        res.json(postList);
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({ error: "An error occurred while fetching the to-do list." });
+    }
+});
+
+postRouter.get('/:id', async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const postList = await prisma.post.findFirst({
+            where: {
+                id: Number(id)
+            }
+        });
 
         res.json(postList);
     } catch (error) {
@@ -35,6 +59,8 @@ postRouter.post('/', async (req, res) => {
 
         res.json(newpost);
     } catch (error) {
+        console.error(error);
+        
         res.status(500).json({ error: "An error occurred while creating the to-do item." });
     }
 });
